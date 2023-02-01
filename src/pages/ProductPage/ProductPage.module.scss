@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0px;
+
+  .arrow {
+    color: #2a9d8f;
+    height: 35px;
+    width: auto;
+    transform: translateX(3px);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateX(-3px);
+      color: darken($color: #2a9d8f, $amount: 5);
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: white;
+
+    .cart {
+      height: 25px;
+      width: auto;
+    }
+
+    p {
+      background-color: #2a9d8f;
+      font-weight: 600;
+      font-size: 20px;
+      border-radius: 50%;
+      height: 35px;
+      width: 35px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      color: white;
+      margin-left: 10px;
+    }
+
+    &:hover {
+      p {
+        background-color: darken($color: #2a9d8f, $amount: 5);
+      }
+    }
+  }
+}
