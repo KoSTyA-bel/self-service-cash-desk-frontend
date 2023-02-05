@@ -15,6 +15,11 @@
       cursor: pointer;
     }
 
+    .arrowInactive {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     p {
       font-weight: 600;
       font-size: 20px;

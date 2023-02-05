@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Product from '../../components/Product/Product';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addProduct, getCheck, updateCart } from '../../redux/slices/cartSlice';
-import { getProducts } from '../../redux/slices/productSlice';
+import { getCard } from '../../redux/slices/checkSlice';
 import { paySelfCheckout } from '../../redux/slices/selfCheckoutSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,13 +13,16 @@ import { BsCart2, BsFillArrowLeftSquareFill } from 'react-icons/bs';
 import styles from './CartPage.module.scss';
 import Loader from '../../components/Loader/Loader';
 
+import useDebounce from '../../utils/hooks/useDebounce'
+
 const CartPage = () => {
   const [code, setCode] = useState('');
   const cartNumber = JSON.parse(localStorage.getItem('guid'));
   const selfCheckoutId = JSON.parse(localStorage.getItem('selfCheckoutId'));
   const cart = useSelector((state) => state.cart.cart.items);
   const loading = useSelector((state) => state.cart.cart.loading);
-  const checkId = useSelector((state) => state.selfCheckouts.checkId);
+  const card = useSelector((state) => state.check.check.card);
+  const debouncedCard = useDebounce(code, 500)
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -30,6 +33,12 @@ const CartPage = () => {
     cardCode: code,
   });
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    
+    setCode(value);
+  }
+
   const onClickPay = async () => {
     checkData.cardCode = code;
     await dispatch(paySelfCheckout(checkData));
@@ -39,6 +48,10 @@ const CartPage = () => {
   React.useEffect(() => {
     dispatch(updateCart(cartNumber));
   }, []);
+
+  React.useEffect(() => {
+    dispatch(getCard(debouncedCard));
+  }, [debouncedCard])
 
   if (loading) {
     return <Loader />
@@ -56,11 +69,11 @@ const CartPage = () => {
       <p className={styles.price}>Total price: {cart.price}</p>
       <div className={styles.footer}>
         <input
-          className={styles.input}
+          className={card === undefined ? styles.input : styles.correctInput}
           type="text"
           value={code}
           placeholder="Card code"
-          onChange={(e) => setCode(e.target.value)}
+          onChange={handleChange}
         />
         <button onClick={onClickPay}>Pay</button>
       </div>

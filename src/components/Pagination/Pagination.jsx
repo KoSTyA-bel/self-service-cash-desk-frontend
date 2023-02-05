@@ -11,21 +11,32 @@ import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 const Pagination = () => {
   const dispatch = useDispatch();
   const pageNumber = useSelector((state) => state.products.page);
+  const isActive = useSelector((state) => state.products.isActive);
 
   const onClickNextPage = () => {
-    dispatch(nextPage());
+    if (isActive) {
+      dispatch(nextPage());
+    }
   };
 
   const onClickPrevPage = () => {
-    dispatch(prevPage());
+    if (pageNumber > 1) {
+      dispatch(prevPage());
+    }
   };
 
   return (
     <div className={styles.pagination}>
       <div className={styles.arrows}>
-        <BsChevronLeft className={styles.arrow} onClick={onClickPrevPage} />
+        <BsChevronLeft
+          className={`${styles.arrow} ${pageNumber <= 1 ? styles.arrowInactive : null}`}
+          onClick={onClickPrevPage}
+        />
         <p>{pageNumber}</p>
-        <BsChevronRight className={styles.arrow} onClick={onClickNextPage} />
+        <BsChevronRight
+          className={`${styles.arrow} ${!isActive ? styles.arrowInactive : null}`}
+          onClick={onClickNextPage}
+        />
       </div>
     </div>
   );

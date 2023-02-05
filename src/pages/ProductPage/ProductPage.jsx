@@ -5,8 +5,8 @@ import Pagination from '../../components/Pagination/Pagination';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addProduct, updateCart } from '../../redux/slices/cartSlice';
-import { getProducts } from '../../redux/slices/productSlice';
-import { BsCart2, BsFillArrowLeftSquareFill } from 'react-icons/bs';
+import { getProducts, getProductsOnNextPage, toFirstPage } from '../../redux/slices/productSlice';
+import { BsCart2, BsFillArrowLeftSquareFill, BsSearch } from 'react-icons/bs';
 
 import styles from './ProductPage.module.scss';
 import Loader from '../../components/Loader/Loader';
@@ -14,17 +14,33 @@ import Loader from '../../components/Loader/Loader';
 const ProductPage = () => {
   const dispatch = useDispatch();
 
+  const [title, setTitle] = React.useState('');
+  const [barcode, setBarcode] = React.useState('');
+
   const { items } = useSelector((state) => state.products.products);
   const { loading } = useSelector((state) => state.products.products);
   const cartItems = useSelector((state) => state.cart.cart.items.products);
   const pageNumber = useSelector((state) => state.products.page);
 
+  const onClickSearch = async () => {
+    console.log(pageNumber, title, barcode);
+    await dispatch(toFirstPage());
+    await dispatch(getProducts({ pageNumber, title, barcode }));
+  };
+
   React.useEffect(() => {
-    dispatch(getProducts(pageNumber));
+    dispatch(getProducts({ pageNumber, title, barcode }));
+    dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
   }, [pageNumber]);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter'){
+      onClickSearch();
+    }
+  }
+
   if (loading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   return (
@@ -41,10 +57,33 @@ const ProductPage = () => {
           </button>
         </Link>
       </div>
-      {items.map((obj, index) => (
+      <div className={styles.inputs}>
+        <button onClick={onClickSearch}>
+          <BsSearch className={styles.search} />
+        </button>
+        <input
+          type="text"
+          value={title}
+          placeholder="Title"
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+          onKeyDown={handleKeyDown}
+        />
+        <input
+          type="text"
+          value={barcode}
+          placeholder="Barcode"
+          onChange={(e) => {
+            setBarcode(e.target.value);
+          }}
+        />
+      </div>
+      {items === undefined ? <h1>No products</h1> : items.map((obj, index) => (
         <Product key={obj.id} index={index} {...obj} />
       ))}
-      <Pagination />
+
+      {items === undefined ? null : <Pagination />}
     </div>
   );
 };
