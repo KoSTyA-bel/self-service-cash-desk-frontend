@@ -60,6 +60,14 @@ const productSlice = createSlice({
     [getProductsOnNextPage.rejected]: (state) => {
       state.isActive = false;
     },
+    [getProductsOnNextPage.fulfilled]: (state, action) => {
+      if (action.payload === undefined){
+        state.isActive = false;
+      }
+      else {
+        state.isActive = true;
+      }
+    },
   },
 });
 

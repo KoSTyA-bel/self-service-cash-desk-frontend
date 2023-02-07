@@ -12,9 +12,10 @@ export const takeSelfCheckout = createAsyncThunk('takeSelfCheckout', async(selfC
     const { data } = await axios
         .put(`/api/SelfCheckout/Take/${selfCheckoutId}`)
         .then(({ data }) => {
+            localStorage.setItem('time', Date.now());
             localStorage.setItem('guid', JSON.stringify(data));
             localStorage.setItem('selfCheckoutId', JSON.stringify(selfCheckoutId));
-            return data
+            return data;
         })
         .catch((error) => {
             if (error.response.status === 400) {
@@ -24,7 +25,18 @@ export const takeSelfCheckout = createAsyncThunk('takeSelfCheckout', async(selfC
 });
 
 export const paySelfCheckout = createAsyncThunk('paySelfCheckout', async(params) => {
-    const { data } = await axios.post(`/api/SelfCheckout/Pay`, params);
+    const { data } = await axios.post(`/api/SelfCheckout/Pay`, params).then((x) => {
+        localStorage.clear();
+        return x;
+    });
+    return data;
+});
+
+export const freeSelfCheckout = createAsyncThunk('freeSelfCheckout', async(params) => {
+    const { data } = await axios.post(`/api/SelfCheckout/Free`, params).then((x) => {
+        localStorage.clear();
+        return x;
+    });
     return data;
 });
 

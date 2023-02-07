@@ -13,7 +13,8 @@ import { BsCart2, BsFillArrowLeftSquareFill } from 'react-icons/bs';
 import styles from './CartPage.module.scss';
 import Loader from '../../components/Loader/Loader';
 
-import useDebounce from '../../utils/hooks/useDebounce'
+import useDebounce from '../../utils/hoo/useDebounce';
+import Timer from '../../components/Timer/Timer';
 
 const CartPage = () => {
   const [code, setCode] = useState('');
@@ -22,7 +23,7 @@ const CartPage = () => {
   const cart = useSelector((state) => state.cart.cart.items);
   const loading = useSelector((state) => state.cart.cart.loading);
   const card = useSelector((state) => state.check.check.card);
-  const debouncedCard = useDebounce(code, 500)
+  const debouncedCard = useDebounce(code, 500);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -35,9 +36,9 @@ const CartPage = () => {
 
   const handleChange = (e) => {
     const { value } = e.target;
-    
+
     setCode(value);
-  }
+  };
 
   const onClickPay = async () => {
     checkData.cardCode = code;
@@ -51,10 +52,10 @@ const CartPage = () => {
 
   React.useEffect(() => {
     dispatch(getCard(debouncedCard));
-  }, [debouncedCard])
+  }, [debouncedCard]);
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -65,8 +66,9 @@ const CartPage = () => {
         </Link>
         <h1>Cart</h1>
       </div>
+      <Timer />
       {cart.products && cart.products.map((obj, index) => <Product key={index} product={obj} />)}
-      <p className={styles.price}>Total price: {cart.price}</p>
+      <p className={styles.price}>Total price: {cart.price.toFixed(2)}$</p>
       <div className={styles.footer}>
         <input
           className={card === undefined ? styles.input : styles.correctInput}

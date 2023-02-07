@@ -24,8 +24,9 @@ const Product = ({ id, product, index }) => {
     <div onClick={onClickAddProduct}
       className={styles.item}>
       <p className={styles.name}>{product.name}</p>
-      <p className={styles.description}>{product.description}</p>
-      <p className={styles.price}>{product.price}</p>
+      <p className={styles.description}>Description: {product.description}</p>
+      <p className={styles.barcode}>Barcode: {product.barcode}</p>
+      <p className={styles.price}>Price: {product.price.toFixed(2)}$</p>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import { BsCart2, BsFillArrowLeftSquareFill, BsSearch } from 'react-icons/bs';
 
 import styles from './ProductPage.module.scss';
 import Loader from '../../components/Loader/Loader';
+import Timer from '../../components/Timer/Timer';
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const ProductPage = () => {
   const { loading } = useSelector((state) => state.products.products);
   const cartItems = useSelector((state) => state.cart.cart.items.products);
   const pageNumber = useSelector((state) => state.products.page);
-
+  const cartNumber = JSON.parse(localStorage.getItem('guid'));
   const onClickSearch = async () => {
     console.log(pageNumber, title, barcode);
     await dispatch(toFirstPage());
@@ -31,13 +32,14 @@ const ProductPage = () => {
   React.useEffect(() => {
     dispatch(getProducts({ pageNumber, title, barcode }));
     dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
+    dispatch(updateCart(cartNumber));
   }, [pageNumber]);
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter'){
+    if (event.key === 'Enter') {
       onClickSearch();
     }
-  }
+  };
 
   if (loading) {
     return <Loader />;
@@ -78,10 +80,13 @@ const ProductPage = () => {
             setBarcode(e.target.value);
           }}
         />
+        <Timer />
       </div>
-      {items === undefined ? <h1>No products</h1> : items.map((obj, index) => (
-        <Product key={obj.id} index={index} {...obj} />
-      ))}
+      {items === undefined ? (
+        <h1>No products</h1>
+      ) : (
+        items.map((obj, index) => <Product key={obj.id} index={index} {...obj} />)
+      )}
 
       {items === undefined ? null : <Pagination />}
     </div>

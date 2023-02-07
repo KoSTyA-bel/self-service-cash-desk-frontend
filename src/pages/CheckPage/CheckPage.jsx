@@ -33,7 +33,7 @@ const CheckPage = () => {
             <div className={styles.item}>
               <p>Date</p>
               <div></div>
-              <p>{check.date}</p>
+              <p>{new Date(check.date).toLocaleString()}</p>
             </div>
             <div className={styles.item}>
               <p>Self checkout number</p>
@@ -43,17 +43,17 @@ const CheckPage = () => {
             <div className={styles.item}>
               <p>Amount</p>
               <div></div>
-              <p>{check.amount}</p>
+              <p>{check.amount.toFixed(2)}$</p>
             </div>
             <div className={styles.item}>
               <p>Discount</p>
               <div></div>
-              <p>{check.discount}</p>
+              <p>{check.discount.toFixed(2)}$</p>
             </div>
             <div className={styles.item}>
               <p>Total</p>
               <div></div>
-              <p>{check.total}</p>
+              <p>{check.total.toFixed(2)}$</p>
             </div>
             {check.card === null ? null : (
               <div className={styles.item}>
