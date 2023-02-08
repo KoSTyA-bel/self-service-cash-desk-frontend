@@ -22,11 +22,19 @@ const ProductPage = () => {
   const { loading } = useSelector((state) => state.products.products);
   const cartItems = useSelector((state) => state.cart.cart.items.products);
   const pageNumber = useSelector((state) => state.products.page);
+
   const cartNumber = JSON.parse(localStorage.getItem('guid'));
+
+  const onClickAddProduct = async (id) => {
+    await dispatch(addProduct({ cartNumber: cartNumber, productId: id }));
+    await dispatch(updateCart(cartNumber));
+  }
+
   const onClickSearch = async () => {
     console.log(pageNumber, title, barcode);
     await dispatch(toFirstPage());
     await dispatch(getProducts({ pageNumber, title, barcode }));
+    await dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
   };
 
   React.useEffect(() => {
@@ -85,7 +93,9 @@ const ProductPage = () => {
       {items === undefined ? (
         <h1>No products</h1>
       ) : (
-        items.map((obj, index) => <Product key={obj.id} index={index} {...obj} />)
+        items.map((obj, index) => <div onClick={() => onClickAddProduct(obj.id)} key={obj.id} index={index}>
+          <Product  {...obj} />
+        </div>)
       )}
 
       {items === undefined ? null : <Pagination />}

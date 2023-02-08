@@ -12,9 +12,12 @@ export const takeSelfCheckout = createAsyncThunk('takeSelfCheckout', async(selfC
     const { data } = await axios
         .put(`/api/SelfCheckout/Take/${selfCheckoutId}`)
         .then(({ data }) => {
-            localStorage.setItem('time', Date.now());
-            localStorage.setItem('guid', JSON.stringify(data));
-            localStorage.setItem('selfCheckoutId', JSON.stringify(selfCheckoutId));
+            if (data !== undefined) {
+                localStorage.setItem('time', Date.now());
+                localStorage.setItem('guid', JSON.stringify(data));
+                localStorage.setItem('selfCheckoutId', JSON.stringify(selfCheckoutId));
+            }
+
             return data;
         })
         .catch((error) => {

@@ -5,7 +5,7 @@ import styles from './CashRegister.module.scss';
 import cashregImg from '../../assets/img/cash.svg';
 
 const CashRegister = ({ id, isActive, isBusy, index, onClick }) => {
-  const isAdmin = true;
+  const isAdmin = false;
 
   return (
     <div

@@ -20,8 +20,8 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { items } = useSelector((state) => state.selfCheckouts.selfCheckouts);
   const { loading } = useSelector((state) => state.selfCheckouts.selfCheckouts);
-  const cartNumber = JSON.parse(localStorage.getItem('guid'));
-  const selfCheckoutId = JSON.parse(localStorage.getItem('selfCheckoutId'));
+  const cartNumber = JSON.parse(localStorage.getItem('guid')) || null;
+  const selfCheckoutId = JSON.parse(localStorage.getItem('selfCheckoutId')) || null;
   const [selfCheckoutParams, setSelfCheckoutParams] = React.useState({
     id: selfCheckoutId,
     cartNumber: cartNumber,

@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./Header.module.scss";
 
 const Header = () => {
-  const isAdmin = true;
+  const isAdmin = false;
 
   return (
     <header className={styles.header}>
