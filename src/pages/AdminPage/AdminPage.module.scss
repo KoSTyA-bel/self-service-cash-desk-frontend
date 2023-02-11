@@ -1,0 +1,56 @@
+.admin {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  header {
+    margin: 20px 0px;
+    button {
+      height: 50px;
+      width: 50px;
+      cursor: pointer;
+      background-color: #2a9d8f;
+      border: none;
+      outline: none;
+      border-radius: 20px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: darken($color: #2a9d8f, $amount: 5);
+      }
+      .home {
+        width: 30px;
+        height: auto;
+        font-weight: 600;
+        color: white;
+      }
+    }
+  }
+  .buttons {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // flex: 1;
+    button {
+      font-size: 32px;
+      height: 200px;
+      width: 200px;
+      margin-right: 10px;
+      cursor: pointer;
+      background-color: #2a9d8f;
+      border: none;
+      outline: none;
+      border-radius: 20px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: darken($color: #2a9d8f, $amount: 5);
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+import React from "react";
+import { AiFillHome } from "react-icons/ai";
+import { Link } from "react-router-dom";
+
+import styles from "./AdminPage.module.scss";
+
+const AdminPage = () => {
+  return (
+    <div className={styles.admin}>
+      <header>
+        <Link to="/">
+          <button>
+            <AiFillHome className={styles.home} />
+          </button>
+        </Link>
+      </header>
+      <div className={styles.buttons}>
+        <Link to="/admin/selfCheckout">
+          <button>Self checkout</button>
+        </Link>
+        <Link to="/admin/product">
+          <button>Products</button>
+        </Link>
+        <Link to="/admin/card">
+          <button>Cards</button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default AdminPage;
