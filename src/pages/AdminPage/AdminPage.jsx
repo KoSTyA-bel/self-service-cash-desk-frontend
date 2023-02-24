@@ -15,10 +15,10 @@ const AdminPage = () => {
         </Link>
       </header>
       <div className={styles.buttons}>
-        <Link to="/admin/selfCheckout">
+        <Link to="/admin/selfCheckouts">
           <button>Self checkout</button>
         </Link>
-        <Link to="/admin/product">
+        <Link to="/admin/products">
           <button>Products</button>
         </Link>
         <Link to="/admin/card">

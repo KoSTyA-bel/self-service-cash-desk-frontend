@@ -9,14 +9,16 @@ import {
   getProducts,
   getProductsOnNextPage,
   toFirstPage,
+  deleteProduct,
+  deleteStock,
 } from "../../../redux/slices/productSlice";
 import { BsCart2, BsFillArrowLeftSquareFill, BsSearch } from "react-icons/bs";
 
-import styles from "./Administration.module.scss";
+import styles from "../../ProductPage/ProductPage.module.scss";
 import Loader from "../../../components/Loader/Loader";
-import Timer from "../../../components/Timer/Timer";
+import { updateTimer } from "../../../redux/slices/selfCheckoutSlice";
 
-const ProductPage = () => {
+const Products = () => {
   const dispatch = useDispatch();
 
   const [title, setTitle] = React.useState("");
@@ -26,13 +28,9 @@ const ProductPage = () => {
   const { loading } = useSelector((state) => state.products.products);
   const cartItems = useSelector((state) => state.cart.cart.items.products);
   const pageNumber = useSelector((state) => state.products.page);
+  const selfCheckout = JSON.parse(localStorage.getItem("selfCheckoutId"));
 
   const cartNumber = JSON.parse(localStorage.getItem("guid"));
-
-  const onClickAddProduct = async (id) => {
-    await dispatch(addProduct({ cartNumber: cartNumber, productId: id }));
-    await dispatch(updateCart(cartNumber));
-  };
 
   const onClickSearch = async () => {
     console.log(pageNumber, title, barcode);
@@ -41,10 +39,15 @@ const ProductPage = () => {
     await dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
   };
 
+  const onClickDeleteProduct = async (id, productId) => {
+    await dispatch(deleteProduct(productId));
+    await dispatch(deleteStock(id));
+    dispatch(getProducts({ pageNumber, title, barcode }));
+  };
+
   React.useEffect(() => {
     dispatch(getProducts({ pageNumber, title, barcode }));
     dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
-    dispatch(updateCart(cartNumber));
   }, [pageNumber]);
 
   const handleKeyDown = (event) => {
@@ -60,15 +63,8 @@ const ProductPage = () => {
   return (
     <div>
       <div className={styles.header}>
-        <Link to="/">
+        <Link to="/admin">
           <BsFillArrowLeftSquareFill className={styles.arrow} />
-        </Link>
-        <h1>Add products to your cart</h1>
-        <Link to="/cart">
-          <button>
-            <BsCart2 className={styles.cart} />
-            <p>{(cartItems && cartItems.length) || 0}</p>
-          </button>
         </Link>
       </div>
       <div className={styles.inputs}>
@@ -92,25 +88,29 @@ const ProductPage = () => {
             setBarcode(e.target.value);
           }}
         />
-        <Timer />
+        <Link to="create">
+          <button>Create</button>
+        </Link>
       </div>
-      {items === undefined ? (
+      {items.length === 0 ? (
         <h1>No products</h1>
       ) : (
         items.map((obj, index) => (
-          <div
-            onClick={() => onClickAddProduct(obj.id)}
-            key={obj.id}
-            index={index}
-          >
-            <Product {...obj} />
+          <div key={obj.id} index={index}>
+            <Product
+              {...obj}
+              isAdmin={true}
+              onClickDeleteProduct={() =>
+                onClickDeleteProduct(obj.id, obj.product.id)
+              }
+            />
           </div>
         ))
       )}
 
-      {items === undefined ? null : <Pagination />}
+      {items.length === 0 ? null : <Pagination />}
     </div>
   );
 };
 
-export default ProductPage;
+export default Products;

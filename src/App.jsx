@@ -7,6 +7,11 @@ import CheckPage from "./pages/CheckPage/CheckPage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import Products from "./pages/AdminPage/Administration/Products";
+import ProductCreate from "./pages/AdminPage/Administration/ProductCreate";
+import SelfCheckouts from "./pages/AdminPage/Administration/SelfCheckouts";
+import AuthPage from "./pages/AuthPage/AuthPage";
+import ProductUpdate from "./pages/AdminPage/Administration/ProductUpdate";
+import HistoryPage from "./pages/HistoryPage/HistoryPage";
 
 function App() {
   return (
@@ -17,7 +22,12 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/check" element={<CheckPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/admin/products" element={<Products />} />
+        <Route path="/admin/products/create" element={<ProductCreate />} />
+        <Route path="/admin/products/update" element={<ProductUpdate />} />
+        <Route path="/admin/selfCheckouts" element={<SelfCheckouts />} />
+        <Route path="/history" element={<HistoryPage />} />
         <Route path="/error" element={<ErrorPage />} />
       </Routes>
     </div>

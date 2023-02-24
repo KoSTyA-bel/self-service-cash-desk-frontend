@@ -1,5 +1,4 @@
 .item {
-    cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -16,11 +15,32 @@
         }
     }
     .info {
+        flex: 1;
         display: flex;
         flex-direction: column;
         .name {
             font-weight: 500;
             font-size: 1.1em;
+        }
+    }
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        button {
+            margin: 5px 0px;
+            height: 50px;
+            width: 50px;
+            cursor: pointer;
+            background-color: #2a9d8f;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            &:hover {
+                background-color: darken($color: #2a9d8f, $amount: 5);
+            }
         }
     }
 }
