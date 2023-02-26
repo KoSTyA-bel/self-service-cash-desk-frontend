@@ -1,18 +1,19 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import CashRegister from '../../../components/CashRegister/CashRegister';
+import CashRegister from "../../../components/CashRegister/CashRegister";
 
-import styles from './Administration.module.scss';
+import styles from "./Administration.module.scss";
 
 import {
   createSelfCheckout,
   getSelfCheckouts,
   deleteSelfCheckout,
   updateSelfCheckout,
-} from '../../../redux/slices/selfCheckoutSlice';
-import { Link } from 'react-router-dom';
-import { BsFillArrowLeftSquareFill } from 'react-icons/bs';
+  freeFroUserSelfCheckout,
+} from "../../../redux/slices/selfCheckoutSlice";
+import { Link } from "react-router-dom";
+import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 
 const SelfCheckouts = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,11 @@ const SelfCheckouts = () => {
     dispatch(getSelfCheckouts());
   };
 
+  const onClickFree = async (id) => {
+    await dispatch(freeFroUserSelfCheckout(id));
+    dispatch(getSelfCheckouts());
+  };
+
   React.useEffect(() => {
     dispatch(getSelfCheckouts());
   }, []);
@@ -60,16 +66,21 @@ const SelfCheckouts = () => {
         <button onClick={onClickButton}>Create</button>
       </div>
       <div className={styles.cashregs}>
-        {items.map((obj, index) => (
-          <CashRegister
-            key={obj.id}
-            {...obj}
-            index={index}
-            isAdmin={true}
-            onClickDelete={() => onClickDelete(obj.id)}
-            onClickChangeActivity={() => onClickChangeActivity(obj.id, obj.isActive)}
-          />
-        ))}
+        {items === null
+          ? null
+          : items.map((obj, index) => (
+              <CashRegister
+                key={obj.id}
+                {...obj}
+                index={index}
+                isAdmin={true}
+                onClickDelete={() => onClickDelete(obj.id)}
+                onClickChangeActivity={() =>
+                  onClickChangeActivity(obj.id, obj.isActive)
+                }
+                onClickMakeFree={() => onClickFree(obj.id)}
+              />
+            ))}
       </div>
     </div>
   );

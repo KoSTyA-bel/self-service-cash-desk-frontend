@@ -21,7 +21,7 @@ const AdminPage = () => {
         <Link to="/admin/products">
           <button>Products</button>
         </Link>
-        <Link to="/admin/card">
+        <Link to="/admin/cards">
           <button>Cards</button>
         </Link>
       </div>

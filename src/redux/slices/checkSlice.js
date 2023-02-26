@@ -29,7 +29,11 @@ const initialState = {
 const checkSlice = createSlice({
   name: "check",
   initialState,
-  reducers: {},
+  reducers: {
+    clearHistory: (state) => {
+      state.checks = null;
+    },
+  },
   extraReducers: {
     [getCheck.pending]: (state) => {
       state.check.loading = true;
@@ -45,6 +49,10 @@ const checkSlice = createSlice({
       state.check.loading = false;
       state.check.card = action.payload;
     },
+    [getCard.rejected]: (state) => {
+      state.check.loading = false;
+      state.check.card = null;
+    },
     [viewHistory.fulfilled]: (state, action) => {
       state.checks = action.payload;
     },
@@ -53,5 +61,7 @@ const checkSlice = createSlice({
     },
   },
 });
+
+export const { clearHistory } = checkSlice.actions;
 
 export const checkReducer = checkSlice.reducer;

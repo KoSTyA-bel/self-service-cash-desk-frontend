@@ -15,9 +15,9 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 
-import loader from "../../assets/img/loader.svg";
 import Loader from "../../components/Loader/Loader";
-import { logDOM } from "@testing-library/react";
+
+import Timer from "../../components/Timer/Timer";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -69,20 +69,25 @@ const HomePage = () => {
     <>
       <Header />
       <h1>Select a cash register </h1>
-      {Date.now() - localStorage.getItem("time") > 300000 ? (
+      {localStorage.getItem("time") - Date.now() <= 0 ? (
         <div className={styles.cashregs}>
-          {items.map((obj, index) => (
-            <CashRegister
-              onClick={onClickSelfCheckout}
-              key={obj.id}
-              {...obj}
-              index={index}
-              isAdmin={false}
-            />
-          ))}
+          {items === null ? (
+            <p>There are no self-service checkouts</p>
+          ) : (
+            items.map((obj, index) => (
+              <CashRegister
+                onClick={onClickSelfCheckout}
+                key={obj.id}
+                {...obj}
+                index={index}
+                isAdmin={false}
+              />
+            ))
+          )}
         </div>
       ) : (
         <div className={styles.backBlock}>
+          <Timer />
           <button onClick={onClickBack} className={styles.back}>
             Back to products
           </button>

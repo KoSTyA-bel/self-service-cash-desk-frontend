@@ -79,13 +79,12 @@ const CartPage = () => {
           <p className={styles.price}>Total price: {cart.price.toFixed(2)}$</p>
           <div className={styles.footer}>
             <input
-              className={
-                card === undefined ? styles.input : styles.correctInput
-              }
+              className={card === null ? styles.input : styles.correctInput}
               type="text"
               value={code}
               placeholder="Card code"
               onChange={handleChange}
+              maxLength={16}
             />
             <button onClick={onClickPay}>Pay</button>
           </div>

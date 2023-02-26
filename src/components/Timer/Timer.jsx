@@ -1,33 +1,41 @@
-import React from "react";
-
-import useInterval from "../../utils/hoo/useInterval";
+import styles from "./Timer.module.scss";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "./Timer.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-
 const Timer = () => {
-  const dispatch = useDispatch();
-  const time = useSelector((state) => state.selfCheckouts.time);
   const navigate = useNavigate();
-  const [timer, setTimer] = React.useState(300000 - (Date.now() - time));
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [deadline, setDeadline] = useState(
+    Number(localStorage.getItem("time"))
+  );
 
-  React.useState(() => {
-    setTimer(300000 - (Date.now() - time));
-    // console.log("1!1");
-  }, [time]);
+  const getTime = () => {
+    const time = deadline - Date.now();
 
-  useInterval(() => {
-    setTimer(timer - 1000);
-  }, 1000);
+    setMinutes(Math.floor((time / 1000 / 60) % 60));
+    setSeconds(Math.floor((time / 1000) % 60));
+    setDeadline(Number(localStorage.getItem("time")));
+  };
 
-  if (Date.now() - localStorage.getItem("time") > 300000) {
-    localStorage.clear();
-    navigate("/");
-  }
+  useEffect(() => {
+    const interval = setInterval(() => getTime(deadline), 1000);
+
+    if (deadline - Date.now() <= 0) {
+      console.log("ASHJKLASFUAKHFJS");
+      localStorage.removeItem("time");
+      localStorage.removeItem("selfCheckoutId");
+      localStorage.removeItem("guid");
+      navigate("/");
+    }
+
+    return () => clearInterval(interval);
+  }, [seconds]);
 
   return (
-    <div className={styles.timer}>{Math.ceil(timer / 60000)} minute left</div>
+    <div className={styles.timer}>
+      {minutes}:{seconds >= 10 ? seconds : "0" + seconds}
+    </div>
   );
 };
 

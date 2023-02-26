@@ -41,7 +41,8 @@ const ProductCreate = () => {
     setCount(Number(e.target.value));
   };
 
-  const onClickButton = async () => {
+  const onClickButton = async (e) => {
+    e.preventDefault();
     const response = await dispatch(createProduct(data));
     if (response.payload.status === 400) {
       console.log(response.payload.data);

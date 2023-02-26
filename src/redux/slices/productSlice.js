@@ -6,7 +6,6 @@ import axios from "../../axios";
 export const getProducts = createAsyncThunk(
   "getProducts",
   async (requestData) => {
-    console.log(requestData);
     const { data } = await axios.get(
       `/api/Stock?page=${requestData.pageNumber}&pageSize=5${
         requestData.title ? `&name=${requestData.title}` : ""
@@ -31,15 +30,8 @@ export const getProductsOnNextPage = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   "createProduct",
   async (params) => {
-    var token = "Bearer " + localStorage.getItem("jwt");
     const data = await axios
-      .post("/api/Product", params, {
-        headers: {
-          authorization: token,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
+      .post("/api/Product", params)
       .then((response) => {
         return response.data;
       })

@@ -3,6 +3,8 @@ import React from "react";
 import styles from "./CashRegister.module.scss";
 
 import cashregImg from "../../assets/img/cash.svg";
+import { useDispatch } from "react-redux";
+import { freeFroUserSelfCheckout } from "../../redux/slices/selfCheckoutSlice";
 
 const CashRegister = ({
   id,
@@ -13,6 +15,7 @@ const CashRegister = ({
   isAdmin,
   onClickDelete,
   onClickChangeActivity,
+  onClickMakeFree,
 }) => {
   return (
     <div
@@ -29,7 +32,11 @@ const CashRegister = ({
       <p className={styles.number}>#{index + 1}</p>
       {isAdmin ? (
         <div className={styles.menu}>
-          <button onClick={onClickChangeActivity}>ChangeActivity</button>
+          {isBusy ? (
+            <button onClick={onClickMakeFree}>MakeFree</button>
+          ) : (
+            <button onClick={onClickChangeActivity}>ChangeActivity</button>
+          )}
           <button onClick={onClickDelete}>Delete</button>
         </div>
       ) : null}

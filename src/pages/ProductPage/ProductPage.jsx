@@ -74,14 +74,14 @@ const ProductPage = () => {
         </Link>
         <h1>Add products to your cart</h1>
         <Link to="/cart">
-          <button className={styles.button}>
+          <button>
             <BsCart2 className={styles.cart} />
             <p>{(cartItems && cartItems.length) || 0}</p>
           </button>
         </Link>
       </div>
       <div className={styles.inputs}>
-        <button onClick={onClickSearch}>
+        <button className={styles.buttonSearch} onClick={onClickSearch}>
           <BsSearch className={styles.search} />
         </button>
         <input

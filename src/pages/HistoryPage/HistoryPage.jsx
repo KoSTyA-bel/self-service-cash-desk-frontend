@@ -3,7 +3,7 @@ import { AiFillHome } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Check from "../../components/Check/Check";
-import { viewHistory } from "../../redux/slices/checkSlice";
+import { clearHistory, viewHistory } from "../../redux/slices/checkSlice";
 
 import styles from "./HistoryPage.module.scss";
 
@@ -25,20 +25,36 @@ const HistoryPage = () => {
     await dispatch(viewHistory(data));
   };
 
+  React.useEffect(() => {
+    dispatch(clearHistory());
+  }, []);
+
   return (
     <div>
       <header>
         <Link to="/">
-          <button>
+          <button className={styles.backToHomePage}>
             <AiFillHome className={styles.home} />
           </button>
         </Link>
         <h1>History</h1>
       </header>
       <form className={styles.inputs}>
-        <input placeholder="code" onChange={onCodeChange} type="text" />
-        <input placeholder="cvv" onChange={onCVVChange} type="password" />
-        <button onClick={onClickSearch}>Search</button>
+        <input
+          placeholder="code"
+          onChange={onCodeChange}
+          type="text"
+          maxLength={16}
+        />
+        <input
+          placeholder="cvv"
+          onChange={onCVVChange}
+          type="password"
+          maxLength={3}
+        />
+        <button className={styles.buttonViewHistory} onClick={onClickSearch}>
+          Search
+        </button>
       </form>
 
       {checks === null ? null : checks.map((obj) => <Check check={obj} />)}

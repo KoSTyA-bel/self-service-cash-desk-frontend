@@ -68,7 +68,7 @@ const Products = () => {
         </Link>
       </div>
       <div className={styles.inputs}>
-        <button onClick={onClickSearch}>
+        <button className={styles.buttonSearch} onClick={onClickSearch}>
           <BsSearch className={styles.search} />
         </button>
         <input
@@ -89,7 +89,7 @@ const Products = () => {
           }}
         />
         <Link to="create">
-          <button>Create</button>
+          <button className={styles.buttonSearch}>Create</button>
         </Link>
       </div>
       {items.length === 0 ? (

@@ -12,6 +12,9 @@ import SelfCheckouts from "./pages/AdminPage/Administration/SelfCheckouts";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import ProductUpdate from "./pages/AdminPage/Administration/ProductUpdate";
 import HistoryPage from "./pages/HistoryPage/HistoryPage";
+import Cards from "./pages/AdminPage/Administration/Cards";
+import CardCreate from "./pages/AdminPage/Administration/CardCreate";
+import CardUpdate from "./pages/AdminPage/Administration/CardUpdate";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
         <Route path="/admin/products/create" element={<ProductCreate />} />
         <Route path="/admin/products/update" element={<ProductUpdate />} />
         <Route path="/admin/selfCheckouts" element={<SelfCheckouts />} />
+        <Route path="/admin/cards" element={<Cards />} />
+        <Route path="/admin/cards/create" element={<CardCreate />} />
+        <Route path="/admin/cards/update" element={<CardUpdate />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/error" element={<ErrorPage />} />
       </Routes>

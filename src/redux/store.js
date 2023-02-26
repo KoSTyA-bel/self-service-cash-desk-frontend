@@ -4,6 +4,7 @@ import { selfCheckoutReducer } from "./slices/selfCheckoutSlice";
 import { productReducer } from "./slices/productSlice";
 import { checkReducer } from "./slices/checkSlice";
 import { authReducer } from "./slices/authSlice";
+import { cardReducer } from "./slices/cardSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     products: productReducer,
     check: checkReducer,
     auth: authReducer,
+    cards: cardReducer,
   },
 });
 

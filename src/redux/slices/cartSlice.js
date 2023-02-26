@@ -6,13 +6,23 @@ import axios from "../../axios";
 export const addProduct = createAsyncThunk(
   "addProduct",
   async (requestData) => {
-    const { data } = await axios.put(
-      `/api/Cart/Add`,
-      JSON.stringify(requestData),
-      {
+    const { data } = await axios
+      .put(`/api/Cart/Add`, JSON.stringify(requestData), {
         headers: { "Content-Type": "application/json" },
-      }
-    );
+      })
+      .then((response) => {
+        localStorage.setItem("time", Number(Date.now()) + 1000 * 60 * 5);
+
+        return response;
+      })
+      .catch((error) => {
+        if (error.response.status === 400 || error.response.status === 404) {
+          localStorage.clear("guid");
+          localStorage.clear("time");
+          localStorage.clear("selfCheckoutId");
+          window.location.href = "/";
+        }
+      });
     return data;
   }
 );
@@ -20,19 +30,36 @@ export const addProduct = createAsyncThunk(
 export const removeProduct = createAsyncThunk(
   "removeProduct",
   async (requestData) => {
-    const { data } = await axios.put(
-      `/api/Cart/Remove`,
-      JSON.stringify(requestData),
-      {
+    const { data } = await axios
+      .put(`/api/Cart/Remove`, JSON.stringify(requestData), {
         headers: { "Content-Type": "application/json" },
-      }
-    );
+      })
+      .then((response) => {
+        localStorage.setItem("time", Number(Date.now()) + 1000 * 60 * 5);
+
+        return response;
+      })
+      .catch((error) => {
+        if (error.response.status === 400 || error.response.status === 404) {
+          localStorage.clear("guid");
+          localStorage.clear("time");
+          localStorage.clear("selfCheckoutId");
+          window.location.href = "/";
+        }
+      });
     return data;
   }
 );
 
 export const updateCart = createAsyncThunk("updateCart", async (number) => {
-  const { data } = await axios.get(`/api/Cart/${number}`);
+  const { data } = await axios.get(`/api/Cart/${number}`).catch((error) => {
+    if (error.response.status === 400 || error.response.status === 404) {
+      localStorage.clear("guid");
+      localStorage.clear("time");
+      localStorage.clear("selfCheckoutId");
+      window.location.href = "/";
+    }
+  });
   return data;
 });
 

@@ -34,7 +34,7 @@ const AuthPage = () => {
     <form>
       <header>
         <Link to="/">
-          <button>
+          <button className={styles.backToHomePageButton}>
             <AiFillHome className={styles.home} />
           </button>
         </Link>
@@ -53,7 +53,11 @@ const AuthPage = () => {
           value={data.password}
           type="password"
         />
-        <button onClick={onClickButton} type="submit">
+        <button
+          className={styles.loginButton}
+          onClick={onClickButton}
+          type="submit"
+        >
           sign in
         </button>
       </div>

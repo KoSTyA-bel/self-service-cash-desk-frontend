@@ -47,7 +47,8 @@ const ProductUpdate = () => {
     setCount(Number(e.target.value));
   };
 
-  const onClickButton = async () => {
+  const onClickButton = async (e) => {
+    e.preventDefault();
     const response = await dispatch(
       updateProduct({ id: stock.product.id, data })
     );
@@ -118,7 +119,7 @@ const ProductUpdate = () => {
         type="number"
       />
       <button type="submit" onClick={onClickButton}>
-        Create
+        Update
       </button>
     </form>
   );
