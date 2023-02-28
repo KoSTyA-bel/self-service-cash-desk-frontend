@@ -66,7 +66,7 @@ const CartPage = () => {
         </Link>
         <h1>Cart</h1>
       </div>
-      <Timer />
+      <Timer className={styles.timer} />
       {cart.products &&
         cart.products.map((obj, index) => (
           <Product key={index} product={obj} isCartPage={true} />

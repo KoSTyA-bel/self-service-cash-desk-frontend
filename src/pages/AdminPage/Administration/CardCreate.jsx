@@ -42,7 +42,9 @@ const CardCreate = () => {
     setRoleId(e.target.value);
   };
 
-  const onClickButton = async () => {
+  const onClickButton = async (e) => {
+    e.preventDefault();
+
     const response = await dispatch(
       createProfile({ fullName: data.fullName, roleId })
     );

@@ -31,7 +31,7 @@ const AuthPage = () => {
   };
 
   return (
-    <form>
+    <form className={styles.form}>
       <header>
         <Link to="/">
           <button className={styles.backToHomePageButton}>
@@ -40,7 +40,7 @@ const AuthPage = () => {
         </Link>
         <h1>Login</h1>
       </header>
-      <div className={styles.inputs}>
+      <div className={styles.authInputs}>
         <input
           placeholder="login"
           onChange={onChangeLogin}

@@ -1,24 +1,39 @@
-import React from 'react';
+import React from "react";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { addProduct, removeProduct, updateCart } from '../../redux/slices/cartSlice';
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addProduct,
+  removeProduct,
+  updateCart,
+} from "../../redux/slices/cartSlice";
 
-import { deleteProduct, deleteStock, writeStock } from '../../redux/slices/productSlice';
+import {
+  deleteProduct,
+  deleteStock,
+  writeStock,
+} from "../../redux/slices/productSlice";
 
-import noImg from '../../assets/img/noImage.svg';
+import noImg from "../../assets/img/noImage.svg";
 
-import styles from './Product.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import styles from "./Product.module.scss";
+import { Link, useNavigate } from "react-router-dom";
 
-const Product = ({ id, product, count, isAdmin, isCartPage, onClickDeleteProduct }) => {
+const Product = ({
+  id,
+  product,
+  count,
+  isAdmin,
+  isCartPage,
+  onClickDeleteProduct,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.products.products);
 
   const page = useSelector((state) => state.products.page);
 
-  const cartNumber = JSON.parse(localStorage.getItem('guid'));
-  const selfCheckoutId = JSON.parse(localStorage.getItem('selfCheckoutId'));
+  const cartNumber = JSON.parse(localStorage.getItem("guid"));
+  const selfCheckoutId = JSON.parse(localStorage.getItem("selfCheckoutId"));
 
   const onClickAddProduct = async (id) => {
     await dispatch(
@@ -26,7 +41,7 @@ const Product = ({ id, product, count, isAdmin, isCartPage, onClickDeleteProduct
         cartNumber: cartNumber,
         productId: id,
         selfChecoutId: selfCheckoutId,
-      }),
+      })
     );
     await dispatch(updateCart(cartNumber));
   };
@@ -37,14 +52,14 @@ const Product = ({ id, product, count, isAdmin, isCartPage, onClickDeleteProduct
         cartNumber: cartNumber,
         productId: id,
         selfChecoutId: selfCheckoutId,
-      }),
+      })
     );
     await dispatch(updateCart(cartNumber));
   };
 
   const onClickUpdateProduct = async (data) => {
     await dispatch(writeStock(data));
-    navigate('update');
+    navigate("update");
   };
 
   return (
@@ -57,15 +72,20 @@ const Product = ({ id, product, count, isAdmin, isCartPage, onClickDeleteProduct
         <p className={styles.description}>Description: {product.description}</p>
         <p className={styles.barcode}>Barcode: {product.barcode}</p>
         <p className={styles.price}>Price: {product.price.toFixed(2)}$</p>
+        {isAdmin ? <p className={styles.count}>Count: {count}</p> : null}
       </div>
       {isAdmin ? (
         <div className={styles.buttons}>
-          <button onClick={() => onClickUpdateProduct({ id, product, count })}>Update</button>
+          <button onClick={() => onClickUpdateProduct({ id, product, count })}>
+            Update
+          </button>
           <button onClick={onClickDeleteProduct}>Delete</button>
         </div>
       ) : isCartPage ? (
         <div className={styles.buttons}>
-          <button onClick={() => onClickRemoveProduct(product.id)}>Remove</button>
+          <button onClick={() => onClickRemoveProduct(product.id)}>
+            Remove
+          </button>
         </div>
       ) : (
         <div className={styles.buttons}>

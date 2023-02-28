@@ -59,6 +59,17 @@ header {
 .create {
   display: flex;
   flex-direction: column;
+  select {
+    margin-bottom: 10px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #e9e9e9;
+    outline: none;
+    border: 2px solid #e9e9e9;
+    padding: 10px 20px;
+    border-radius: 20px;
+  }
   input {
     margin-bottom: 10px;
     height: 50px;
@@ -90,6 +101,7 @@ header {
 .cashregs {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .header {
@@ -176,6 +188,46 @@ header {
       height: auto;
       font-weight: 600;
       color: white;
+    }
+  }
+}
+
+.cards {
+  .buttonCreate {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    background-color: #2a9d8f;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 20px;
+    &:hover {
+      background-color: darken($color: #2a9d8f, $amount: 5);
+    }
+  }
+  .card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .selfCheckouts {
+    display: flex;
+    flex-direction: column;
+    .activity {
+      justify-content: center;
+    }
+  }
+  .cards {
+    .buttonCreate {
+      width: 100%;
     }
   }
 }

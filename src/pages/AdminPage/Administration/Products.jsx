@@ -4,7 +4,6 @@ import Product from "../../../components/Product/Product";
 import Pagination from "../../../components/Pagination/Pagination";
 
 import { useSelector, useDispatch } from "react-redux";
-import { addProduct, updateCart } from "../../../redux/slices/cartSlice";
 import {
   getProducts,
   getProductsOnNextPage,
@@ -16,7 +15,6 @@ import { BsCart2, BsFillArrowLeftSquareFill, BsSearch } from "react-icons/bs";
 
 import styles from "../../ProductPage/ProductPage.module.scss";
 import Loader from "../../../components/Loader/Loader";
-import { updateTimer } from "../../../redux/slices/selfCheckoutSlice";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -89,7 +87,7 @@ const Products = () => {
           }}
         />
         <Link to="create">
-          <button className={styles.buttonSearch}>Create</button>
+          <button className={styles.buttonCreate}>Create</button>
         </Link>
       </div>
       {items.length === 0 ? (

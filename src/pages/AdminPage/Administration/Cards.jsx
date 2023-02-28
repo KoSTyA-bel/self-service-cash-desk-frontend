@@ -27,7 +27,7 @@ const Cards = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.cards}>
       <header>
         <Link to="/admin">
           <BsFillArrowLeftSquareFill className={styles.arrow} />
@@ -36,17 +36,19 @@ const Cards = () => {
       </header>
       <div>
         <Link to="create">
-          <button>Create</button>
+          <button className={styles.buttonCreate}>Create</button>
         </Link>
-        {items === null
-          ? null
-          : items.map((obj, index) => (
-              <Card
-                {...obj}
-                key={index}
-                onClickDelete={() => onClickDelete(obj.id)}
-              />
-            ))}
+        <div className={styles.card}>
+          {items === null
+            ? null
+            : items.map((obj, index) => (
+                <Card
+                  {...obj}
+                  key={index}
+                  onClickDelete={() => onClickDelete(obj.id)}
+                />
+              ))}
+        </div>
       </div>
     </div>
   );

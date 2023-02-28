@@ -53,7 +53,7 @@ const SelfCheckouts = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.selfCheckouts}>
       <header>
         <Link to="/admin">
           <BsFillArrowLeftSquareFill className={styles.arrow} />
