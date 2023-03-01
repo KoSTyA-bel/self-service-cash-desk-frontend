@@ -26,7 +26,11 @@ const AuthPage = () => {
 
   const onClickButton = async (e) => {
     e.preventDefault();
-    await dispatch(fetchAuth(data));
+    const response = await dispatch(fetchAuth(data));
+    if (response.payload.status === 404) {
+      alert("Can`t find user");
+      return;
+    }
     navigate("/");
   };
 

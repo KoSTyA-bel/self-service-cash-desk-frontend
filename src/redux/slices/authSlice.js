@@ -4,7 +4,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchAuth = createAsyncThunk("fetchAuth", async (params) => {
-  const { data } = await axios.post("/api/Auth", params);
+  const data = await axios
+    .post("/api/Auth", params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response;
+    });
   return data;
 });
 
