@@ -86,7 +86,6 @@ export const deleteStock = createAsyncThunk("deleteStock", async (params) => {
 });
 
 export const createStock = createAsyncThunk("createStock", async (params) => {
-  console.log(params);
   var token = "Bearer " + localStorage.getItem("jwt");
   const { data } = await axios.post("/api/Stock", params, {
     headers: {
@@ -99,7 +98,6 @@ export const createStock = createAsyncThunk("createStock", async (params) => {
 });
 
 export const updateStock = createAsyncThunk("updateStock", async (params) => {
-  console.log(params);
   var token = "Bearer " + localStorage.getItem("jwt");
   const { data } = await axios.put(`/api/Stock/${params.id}`, params.data, {
     headers: {

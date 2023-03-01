@@ -31,7 +31,6 @@ const Products = () => {
   const cartNumber = JSON.parse(localStorage.getItem("guid"));
 
   const onClickSearch = async () => {
-    console.log(pageNumber, title, barcode);
     await dispatch(toFirstPage());
     await dispatch(getProducts({ pageNumber, title, barcode }));
     await dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
@@ -77,6 +76,7 @@ const Products = () => {
             setTitle(e.target.value);
           }}
           onKeyDown={handleKeyDown}
+          maxLength={50}
         />
         <input
           type="text"
@@ -85,6 +85,7 @@ const Products = () => {
           onChange={(e) => {
             setBarcode(e.target.value);
           }}
+          maxLength={50}
         />
         <Link to="create">
           <button className={styles.buttonCreate}>Create</button>

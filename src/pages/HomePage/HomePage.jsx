@@ -50,7 +50,6 @@ const HomePage = () => {
     Date.now() - localStorage.getItem("time") > 300000
       ? navigate("/")
       : navigate("/products");
-    console.log(new Date().toLocaleString());
   };
   const onClickMakeFree = async () => {
     await dispatch(freeSelfCheckout(selfCheckoutParams));
@@ -72,7 +71,9 @@ const HomePage = () => {
       {localStorage.getItem("time") - Date.now() <= 0 ? (
         <div className={styles.cashregs}>
           {items === null ? (
-            <p>There are no self-service checkouts</p>
+            <div className={styles.noSelfCheckoutsMessage}>
+              <p>There are no self-service checkouts</p>
+            </div>
           ) : (
             items.map((obj, index) => (
               <CashRegister

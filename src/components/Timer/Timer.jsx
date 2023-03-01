@@ -1,6 +1,9 @@
 import styles from "./Timer.module.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
+
+import time from "../../assets/img/time.svg";
 
 const Timer = () => {
   const navigate = useNavigate();
@@ -22,7 +25,6 @@ const Timer = () => {
     const interval = setInterval(() => getTime(deadline), 1000);
 
     if (deadline - Date.now() <= 0) {
-      console.log("ASHJKLASFUAKHFJS");
       localStorage.removeItem("time");
       localStorage.removeItem("selfCheckoutId");
       localStorage.removeItem("guid");
@@ -33,8 +35,14 @@ const Timer = () => {
   }, [seconds]);
 
   return (
-    <div className={styles.timer}>
-      {minutes}:{seconds >= 10 ? seconds : "0" + seconds}
+    <div>
+      {minutes === 0 && seconds === 0 ? (
+        <img width={30} height={30} src={time} alt="Time" />
+      ) : (
+        <div className={styles.timer}>
+          {minutes}:{seconds >= 10 ? seconds : "0" + seconds}
+        </div>
+      )}
     </div>
   );
 };

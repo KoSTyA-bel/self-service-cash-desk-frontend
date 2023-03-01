@@ -6,7 +6,7 @@ export const getToken = () =>
 export const getAuthorizationHeader = () => `Bearer ${getToken()}`;
 
 const instance = axios.create({
-  baseURL: "https://localhost:7249",
+  baseURL: "http://odbanf-001-site1.dtempurl.com/",
   headers: { Authorization: getAuthorizationHeader() },
 });
 

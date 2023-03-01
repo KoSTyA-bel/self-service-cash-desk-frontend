@@ -44,7 +44,6 @@ const ProductPage = () => {
   };
 
   const onClickSearch = async () => {
-    console.log(pageNumber, title, barcode);
     await dispatch(toFirstPage());
     await dispatch(getProducts({ pageNumber, title, barcode }));
     await dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
@@ -92,6 +91,7 @@ const ProductPage = () => {
             setTitle(e.target.value);
           }}
           onKeyDown={handleKeyDown}
+          maxLength={50}
         />
         <input
           type="text"
@@ -100,6 +100,7 @@ const ProductPage = () => {
           onChange={(e) => {
             setBarcode(e.target.value);
           }}
+          maxLength={50}
         />
         <Timer />
       </div>
