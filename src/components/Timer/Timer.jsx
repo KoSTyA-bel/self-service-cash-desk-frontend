@@ -1,8 +1,6 @@
 import styles from "./Timer.module.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../Loader/Loader";
-
 import time from "../../assets/img/time.svg";
 
 const Timer = () => {
