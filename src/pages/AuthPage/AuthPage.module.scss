@@ -1,0 +1,79 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  header {
+    flex: 0;
+  }
+  .backToHomePageButton {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    background-color: #2a9d8f;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      background-color: darken($color: #2a9d8f, $amount: 5);
+    }
+    .home {
+      width: 30px;
+      height: auto;
+      font-weight: 600;
+      color: white;
+    }
+  }
+  .loginButton {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    background-color: #2a9d8f;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      background-color: darken($color: #2a9d8f, $amount: 5);
+    }
+    .home {
+      width: 30px;
+      height: auto;
+      font-weight: 600;
+      color: white;
+    }
+  }
+  .authInputs {
+    display: flex;
+    // width: 100%;
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // position: absolute;
+    // flex-direction: column;
+    // left: 50%;
+    // top: 50%;
+    // transform: translate(-50%, -50%);
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      height: 50px;
+      font-size: 20px;
+      font-weight: 600;
+      background-color: #e9e9e9;
+      outline: none;
+      border: 2px solid #e9e9e9;
+      padding: 10px 20px;
+      border-radius: 20px;
+    }
+    button {
+      width: 100%;
+    }
+  }
+}

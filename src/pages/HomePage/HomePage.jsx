@@ -1,52 +1,58 @@
-import React from 'react';
+import React from "react";
 
-import CashRegister from '../../components/CashRegister/CashRegister';
-import Header from '../../components/Header/Header';
+import CashRegister from "../../components/CashRegister/CashRegister";
+import Header from "../../components/Header/Header";
 
-import { Link, useNavigate, redirect } from 'react-router-dom';
+import { Link, useNavigate, redirect } from "react-router-dom";
 
-import styles from './HomePage.module.scss';
+import styles from "./HomePage.module.scss";
 
-import { freeSelfCheckout, getSelfCheckouts, takeSelfCheckout } from '../../redux/slices/selfCheckoutSlice';
+import {
+  freeSelfCheckout,
+  getSelfCheckouts,
+  takeSelfCheckout,
+} from "../../redux/slices/selfCheckoutSlice";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import loader from '../../assets/img/loader.svg';
-import Loader from '../../components/Loader/Loader';
-import { logDOM } from '@testing-library/react';
+import Loader from "../../components/Loader/Loader";
+
+import Timer from "../../components/Timer/Timer";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { items } = useSelector((state) => state.selfCheckouts.selfCheckouts);
   const { loading } = useSelector((state) => state.selfCheckouts.selfCheckouts);
-  const cartNumber = JSON.parse(localStorage.getItem('guid')) || null;
-  const selfCheckoutId = JSON.parse(localStorage.getItem('selfCheckoutId')) || null;
+  const cartNumber = JSON.parse(localStorage.getItem("guid")) || null;
+  const selfCheckoutId =
+    JSON.parse(localStorage.getItem("selfCheckoutId")) || null;
   const [selfCheckoutParams, setSelfCheckoutParams] = React.useState({
     id: selfCheckoutId,
     cartNumber: cartNumber,
-  })
+  });
 
   const onClickSelfCheckout = async (isBusy, isActive, id) => {
     if (isActive === false || isBusy === true) {
-      navigate('/');
+      navigate("/");
     } else {
       const { error } = await dispatch(takeSelfCheckout(id));
       if (error === undefined) {
-        navigate('/products');
+        navigate("/products");
       } else {
-        alert('КАССА ЗАНЯТА');
+        alert("КАССА ЗАНЯТА");
         await dispatch(getSelfCheckouts());
       }
     }
   };
 
   const onClickBack = () => {
-    Date.now() - localStorage.getItem('time') > 300000 ? navigate('/') : navigate('/products');
-    console.log(new Date().toLocaleString());
+    Date.now() - localStorage.getItem("time") > 300000
+      ? navigate("/")
+      : navigate("/products");
   };
   const onClickMakeFree = async () => {
-    await dispatch(freeSelfCheckout(selfCheckoutParams))
+    await dispatch(freeSelfCheckout(selfCheckoutParams));
     dispatch(getSelfCheckouts());
   };
 
@@ -62,14 +68,27 @@ const HomePage = () => {
     <>
       <Header />
       <h1>Select a cash register </h1>
-      {Date.now() - localStorage.getItem('time') > 300000 ? (
+      {localStorage.getItem("time") - Date.now() <= 0 ? (
         <div className={styles.cashregs}>
-          {items.map((obj, index) => (
-            <CashRegister onClick={onClickSelfCheckout} key={obj.id} {...obj} index={index} />
-          ))}
+          {items === null ? (
+            <div className={styles.noSelfCheckoutsMessage}>
+              <p>There are no self-service checkouts</p>
+            </div>
+          ) : (
+            items.map((obj, index) => (
+              <CashRegister
+                onClick={onClickSelfCheckout}
+                key={obj.id}
+                {...obj}
+                index={index}
+                isAdmin={false}
+              />
+            ))
+          )}
         </div>
       ) : (
         <div className={styles.backBlock}>
+          <Timer />
           <button onClick={onClickBack} className={styles.back}>
             Back to products
           </button>

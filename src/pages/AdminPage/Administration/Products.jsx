@@ -1,23 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Product from "../../components/Product/Product";
-import Pagination from "../../components/Pagination/Pagination";
+import Product from "../../../components/Product/Product";
+import Pagination from "../../../components/Pagination/Pagination";
 
 import { useSelector, useDispatch } from "react-redux";
-import { addProduct, updateCart } from "../../redux/slices/cartSlice";
 import {
   getProducts,
   getProductsOnNextPage,
   toFirstPage,
-} from "../../redux/slices/productSlice";
+  deleteProduct,
+  deleteStock,
+} from "../../../redux/slices/productSlice";
 import { BsCart2, BsFillArrowLeftSquareFill, BsSearch } from "react-icons/bs";
 
-import styles from "./ProductPage.module.scss";
-import Loader from "../../components/Loader/Loader";
-import Timer from "../../components/Timer/Timer";
-import { updateTimer } from "../../redux/slices/selfCheckoutSlice";
+import styles from "../../ProductPage/ProductPage.module.scss";
+import Loader from "../../../components/Loader/Loader";
 
-const ProductPage = () => {
+const Products = () => {
   const dispatch = useDispatch();
 
   const [title, setTitle] = React.useState("");
@@ -31,28 +30,21 @@ const ProductPage = () => {
 
   const cartNumber = JSON.parse(localStorage.getItem("guid"));
 
-  const onClickAddProduct = async (id) => {
-    await dispatch(
-      addProduct({
-        cartNumber: cartNumber,
-        productId: id,
-        selfChecoutId: selfCheckout,
-      })
-    );
-    await dispatch(updateCart(cartNumber));
-    dispatch(updateTimer());
-  };
-
   const onClickSearch = async () => {
     await dispatch(toFirstPage());
     await dispatch(getProducts({ pageNumber, title, barcode }));
     await dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
   };
 
+  const onClickDeleteProduct = async (id, productId) => {
+    await dispatch(deleteProduct(productId));
+    await dispatch(deleteStock(id));
+    dispatch(getProducts({ pageNumber, title, barcode }));
+  };
+
   React.useEffect(() => {
     dispatch(getProducts({ pageNumber, title, barcode }));
     dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
-    dispatch(updateCart(cartNumber));
   }, [pageNumber]);
 
   const handleKeyDown = (event) => {
@@ -68,15 +60,8 @@ const ProductPage = () => {
   return (
     <div>
       <div className={styles.header}>
-        <Link to="/">
+        <Link to="/admin">
           <BsFillArrowLeftSquareFill className={styles.arrow} />
-        </Link>
-        <h1>Add products to your cart</h1>
-        <Link to="/cart">
-          <button>
-            <BsCart2 className={styles.cart} />
-            <p>{(cartItems && cartItems.length) || 0}</p>
-          </button>
         </Link>
       </div>
       <div className={styles.inputs}>
@@ -102,14 +87,22 @@ const ProductPage = () => {
           }}
           maxLength={50}
         />
-        <Timer />
+        <Link to="create">
+          <button className={styles.buttonCreate}>Create</button>
+        </Link>
       </div>
       {items.length === 0 ? (
         <h1>No products</h1>
       ) : (
         items.map((obj, index) => (
           <div key={obj.id} index={index}>
-            <Product {...obj} />
+            <Product
+              {...obj}
+              isAdmin={true}
+              onClickDeleteProduct={() =>
+                onClickDeleteProduct(obj.id, obj.product.id)
+              }
+            />
           </div>
         ))
       )}
@@ -119,4 +112,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default Products;

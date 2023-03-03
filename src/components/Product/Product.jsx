@@ -1,39 +1,97 @@
-import React from 'react';
+import React from "react";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { addProduct, updateCart } from '../../redux/slices/cartSlice';
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addProduct,
+  removeProduct,
+  updateCart,
+} from "../../redux/slices/cartSlice";
 
-import noImg from '../../assets/img/noImage.svg'
+import {
+  deleteProduct,
+  deleteStock,
+  writeStock,
+} from "../../redux/slices/productSlice";
 
-import styles from './Product.module.scss';
+import noImg from "../../assets/img/noImage.svg";
 
-const Product = ({ id, product, index }) => {
+import styles from "./Product.module.scss";
+import { Link, useNavigate } from "react-router-dom";
 
+const Product = ({
+  id,
+  product,
+  count,
+  isAdmin,
+  isCartPage,
+  onClickDeleteProduct,
+}) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { items } = useSelector((state) => state.products.products);
-  
+
   const page = useSelector((state) => state.products.page);
 
-  const cartNumber = JSON.parse(localStorage.getItem('guid'));
+  const cartNumber = JSON.parse(localStorage.getItem("guid"));
+  const selfCheckoutId = JSON.parse(localStorage.getItem("selfCheckoutId"));
 
-  const onClickAddProduct = async () => {
-    await dispatch(addProduct({ cartNumber: cartNumber, productId: id }));
+  const onClickAddProduct = async (id) => {
+    await dispatch(
+      addProduct({
+        cartNumber: cartNumber,
+        productId: id,
+        selfChecoutId: selfCheckoutId,
+      })
+    );
     await dispatch(updateCart(cartNumber));
-  }
+  };
+
+  const onClickRemoveProduct = async (id) => {
+    await dispatch(
+      removeProduct({
+        cartNumber: cartNumber,
+        productId: id,
+        selfChecoutId: selfCheckoutId,
+      })
+    );
+    await dispatch(updateCart(cartNumber));
+  };
+
+  const onClickUpdateProduct = async (data) => {
+    await dispatch(writeStock(data));
+    navigate("update");
+  };
 
   return (
-    <div 
-      className={styles.item}>
+    <div className={styles.item}>
       <div className={styles.img}>
-        <img src={noImg} alt="no image"/>
+        <img src={noImg} alt="no image" />
       </div>
       <div className={styles.info}>
         <p className={styles.name}>{product.name}</p>
         <p className={styles.description}>Description: {product.description}</p>
         <p className={styles.barcode}>Barcode: {product.barcode}</p>
         <p className={styles.price}>Price: {product.price.toFixed(2)}$</p>
+        {isAdmin ? <p className={styles.count}>Count: {count}</p> : null}
       </div>
+      {isAdmin ? (
+        <div className={styles.buttons}>
+          <button onClick={() => onClickUpdateProduct({ id, product, count })}>
+            Update
+          </button>
+          <button onClick={onClickDeleteProduct}>Delete</button>
+        </div>
+      ) : isCartPage ? (
+        <div className={styles.buttons}>
+          <button onClick={() => onClickRemoveProduct(product.id)}>
+            Remove
+          </button>
+        </div>
+      ) : (
+        <div className={styles.buttons}>
+          <button onClick={() => onClickAddProduct(product.id)}>Add</button>
+        </div>
+      )}
     </div>
   );
 };

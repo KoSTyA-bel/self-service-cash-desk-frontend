@@ -3,7 +3,9 @@
   justify-content: space-between;
   align-items: center;
   margin: 20px 0px;
-
+  h1 {
+    flex: 1;
+  }
   .arrow {
     color: #2a9d8f;
     height: 35px;
@@ -11,13 +13,11 @@
     transform: translateX(3px);
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-
     &:hover {
       transform: translateX(-3px);
       color: darken($color: #2a9d8f, $amount: 5);
     }
   }
-
   button {
     display: flex;
     align-items: center;
@@ -26,12 +26,10 @@
     border: none;
     outline: none;
     background-color: white;
-
     .cart {
       height: 25px;
       width: auto;
     }
-
     p {
       background-color: #2a9d8f;
       font-weight: 600;
@@ -45,7 +43,6 @@
       color: white;
       margin-left: 10px;
     }
-
     &:hover {
       p {
         background-color: darken($color: #2a9d8f, $amount: 5);
@@ -55,10 +52,8 @@
 }
 
 .inputs {
-  align-items: center;
   display: flex;
   margin-bottom: 20px;
-
   input {
     height: 50px;
     font-size: 20px;
@@ -68,10 +63,9 @@
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
-    margin-left: 20px;
+    margin: 0px 10px;
   }
-
-  button {
+  .buttonSearch {
     height: 50px;
     width: 50px;
     cursor: pointer;
@@ -90,6 +84,49 @@
       height: auto;
       font-weight: 600;
       color: white;
+    }
+  }
+  .buttonCreate {
+    flex: 1;
+    margin-bottom: 10px;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    background-color: #2a9d8f;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      background-color: darken($color: #2a9d8f, $amount: 5);
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .header {
+    align-items: center;
+    h1 {
+      font-size: 20px;
+    }
+  }
+  .inputs {
+    align-items: center;
+    flex-direction: column-reverse;
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .buttonSearch {
+      width: 100%;
+    }
+    a {
+      width: 100%;
+      .buttonCreate {
+        width: 100%;
+      }
     }
   }
 }

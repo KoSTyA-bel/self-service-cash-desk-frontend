@@ -1,0 +1,65 @@
+.admin {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  header {
+    margin: 20px 0px;
+    button {
+      height: 50px;
+      width: 50px;
+      cursor: pointer;
+      background-color: #2a9d8f;
+      border: none;
+      outline: none;
+      border-radius: 20px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: darken($color: #2a9d8f, $amount: 5);
+      }
+      .home {
+        width: 30px;
+        height: auto;
+        font-weight: 600;
+        color: white;
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    button {
+      font-size: 32px;
+      height: 200px;
+      width: 200px;
+      margin-right: 10px;
+      cursor: pointer;
+      background-color: #2a9d8f;
+      border: none;
+      outline: none;
+      border-radius: 20px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: darken($color: #2a9d8f, $amount: 5);
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    button {
+      width: 150px !important;
+      height: 150px !important;
+      margin-bottom: 10px;
+    }
+  }
+}
