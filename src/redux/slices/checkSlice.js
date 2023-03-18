@@ -21,9 +21,27 @@ export const viewHistory = createAsyncThunk("viewHistory", async (params) => {
   return data;
 });
 
+export const viewStatistic = createAsyncThunk(
+  "viewStatistic",
+  async (params) => {
+    const { data } = await axios.post(`/api/Statistic`, params);
+    return data;
+  }
+);
+
+export const sendCheckToEmail = createAsyncThunk(
+  "sendCheckToEmail",
+  async (params) => {
+    const { data } = await axios.post(`/api/Mail`, params);
+    return data;
+  }
+);
+
 const initialState = {
   check: { data: null, card: null, loading: true },
   checks: null,
+  statistic: null,
+  isMailSended: false,
 };
 
 const checkSlice = createSlice({
@@ -40,6 +58,7 @@ const checkSlice = createSlice({
     },
     [getCheck.fulfilled]: (state, action) => {
       state.check.loading = false;
+      state.isMailSended = false;
       state.check.data = action.payload;
     },
     [getCard.pending]: (state) => {
@@ -58,6 +77,18 @@ const checkSlice = createSlice({
     },
     [viewHistory.rejected]: (state) => {
       state.checks = null;
+    },
+    [viewStatistic.fulfilled]: (state, action) => {
+      state.statistic = action.payload;
+    },
+    [viewStatistic.rejected]: (state) => {
+      state.statistic = null;
+    },
+    [sendCheckToEmail.fulfilled]: (state, action) => {
+      state.isMailSended = true;
+    },
+    [sendCheckToEmail.rejected]: (state) => {
+      state.isMailSended = false;
     },
   },
 });

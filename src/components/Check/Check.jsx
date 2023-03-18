@@ -3,8 +3,6 @@ import React from "react";
 import styles from "./Check.module.scss";
 
 const Check = ({ check }) => {
-  console.log(check);
-
   return (
     <div className={styles.checks}>
       <div className={styles.block}>

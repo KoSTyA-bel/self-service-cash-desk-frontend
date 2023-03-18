@@ -1,17 +1,28 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Loader from '../../components/Loader/Loader';
-import { getCheck } from '../../redux/slices/checkSlice';
-import { AiFillHome } from 'react-icons/ai';
-
-import styles from './CheckPage.module.scss';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../../components/Loader/Loader";
+import { getCheck, sendCheckToEmail } from "../../redux/slices/checkSlice";
+import { AiFillHome } from "react-icons/ai";
+import styles from "./CheckPage.module.scss";
+import { Link } from "react-router-dom";
 
 const CheckPage = () => {
   const dispatch = useDispatch();
   const checkId = useSelector((state) => state.selfCheckouts.checkId);
   const check = useSelector((state) => state.check.check.data);
-  const loading = useSelector((state) => state.check.check.loading);
+  const isMailSended = useSelector((state) => state.check.isMailSended);
+  const [email, setEmail] = useState("");
+  console.log(isMailSended);
+
+  const sendEmail = async (e) => {
+    e.preventDefault();
+
+    await dispatch(sendCheckToEmail({ email, checkId }));
+  };
+
+  const onEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
   React.useEffect(() => {
     dispatch(getCheck(checkId));
@@ -29,6 +40,7 @@ const CheckPage = () => {
             </button>
           </Link>
           <h1>Check</h1>
+
           <div className={styles.block}>
             <div className={styles.item}>
               <p>Date</p>
@@ -63,6 +75,18 @@ const CheckPage = () => {
               </div>
             )}
           </div>
+          <form className={styles.mailForm} onSubmit={sendEmail}>
+            <input
+              className={isMailSended ? styles.sended : styles.unsended}
+              onChange={onEmailChange}
+              required
+              placeholder="ivanivanov@mail.ru"
+              type="email"
+              name="emailAddress"
+              id="email"
+            />
+            {isMailSended ? null : <button>Send</button>}
+          </form>
         </div>
       )}
     </>
