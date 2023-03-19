@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Check from "../../components/Check/Check";
 import {
+  clearChart,
   clearHistory,
   viewHistory,
   viewStatistic,
@@ -57,6 +58,7 @@ const HistoryPage = () => {
 
   React.useEffect(() => {
     dispatch(clearHistory());
+    dispatch(clearChart());
   }, []);
 
   return (
@@ -89,9 +91,26 @@ const HistoryPage = () => {
       <div className={styles.checkData}>
         {statistic === null ? null : (
           <div className={styles.statisticDiv}>
-            <p>Average check price: {statistic.averagePrice}</p>
-            <p>Total discount: {statistic.totalDiscount}</p>
-            <p>Total: {statistic.total}</p>
+            <div className={styles.item}>
+              <p>Average check price:</p>
+              <div></div>
+              <p>{statistic.averagePrice.toFixed(2)}$</p>
+            </div>
+            <div className={styles.item}>
+              <p>Total discount:</p>
+              <div></div>
+              <p>{statistic.totalDiscount.toFixed(2)}$</p>
+            </div>
+            <div className={styles.item}>
+              <p>Total:</p>
+              <div></div>
+              <p>{statistic.total.toFixed(2)}$</p>
+            </div>
+            <div className={styles.item}>
+              <p>Total products purchased:</p>
+              <div></div>
+              <p>{statistic.counts.reduce((acc, num) => acc + num, 0)}</p>
+            </div>
             <BarChart
               chartData={{
                 labels: statistic.products,

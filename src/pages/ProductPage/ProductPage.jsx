@@ -30,9 +30,7 @@ const ProductPage = () => {
   const selfCheckout = JSON.parse(localStorage.getItem("selfCheckoutId"));
   const products = JSON.parse(localStorage.getItem("products"));
   const cartNumber = JSON.parse(localStorage.getItem("guid"));
-  console.log(products);
-  console.log(items);
-  console.log(cartItems);
+
   const onClickAddProduct = async (id) => {
     await dispatch(
       addProduct({

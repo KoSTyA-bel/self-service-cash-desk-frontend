@@ -12,7 +12,6 @@ const CheckPage = () => {
   const check = useSelector((state) => state.check.check.data);
   const isMailSended = useSelector((state) => state.check.isMailSended);
   const [email, setEmail] = useState("");
-  console.log(isMailSended);
 
   const sendEmail = async (e) => {
     e.preventDefault();

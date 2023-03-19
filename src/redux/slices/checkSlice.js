@@ -51,6 +51,9 @@ const checkSlice = createSlice({
     clearHistory: (state) => {
       state.checks = null;
     },
+    clearChart: (state) => {
+      state.statistic = null;
+    },
   },
   extraReducers: {
     [getCheck.pending]: (state) => {
@@ -93,6 +96,6 @@ const checkSlice = createSlice({
   },
 });
 
-export const { clearHistory } = checkSlice.actions;
+export const { clearHistory, clearChart } = checkSlice.actions;
 
 export const checkReducer = checkSlice.reducer;
