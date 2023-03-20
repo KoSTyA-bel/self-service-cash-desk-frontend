@@ -45,7 +45,6 @@ const ProductCreate = () => {
     e.preventDefault();
     const response = await dispatch(createProduct(data));
     if (response.payload.status === 400) {
-      console.log(response.payload.data);
       alert(response.payload.data.message);
     } else {
       await dispatch(

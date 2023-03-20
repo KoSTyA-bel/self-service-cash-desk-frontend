@@ -61,3 +61,37 @@
     width: 100%;
   }
 }
+
+.checkData {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+}
+
+.statisticDiv {
+  position: sticky;
+  margin-top: 10px;
+  height: 300px;
+  top: 0;
+  padding: 20px;
+  box-shadow: 0px 0px 15px 10px #bbb;
+  .item {
+    display: flex;
+    div {
+      flex: 1;
+      border-bottom: 1px dashed #bbb;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .checkData {
+    align-items: center;
+    flex-direction: column;
+  }
+  .statisticDiv {
+    height: auto;
+    position: static;
+  }
+}

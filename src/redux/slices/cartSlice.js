@@ -11,15 +11,24 @@ export const addProduct = createAsyncThunk(
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
+        let products = JSON.parse(localStorage.getItem("products"));
+
+        if (products === null) {
+          products = new Array();
+        }
+
+        products.push(requestData.productId);
+
+        localStorage.setItem("products", JSON.stringify(products));
         localStorage.setItem("time", Number(Date.now()) + 1000 * 60 * 5);
 
         return response;
       })
       .catch((error) => {
         if (error.response.status === 400 || error.response.status === 404) {
-          localStorage.clear("guid");
-          localStorage.clear("time");
-          localStorage.clear("selfCheckoutId");
+          localStorage.removeItem("guid");
+          localStorage.removeItem("time");
+          localStorage.removeItem("selfCheckoutId");
           window.location.href = "/";
         }
       });
@@ -35,15 +44,20 @@ export const removeProduct = createAsyncThunk(
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
+        let products = JSON.parse(localStorage.getItem("products"));
+        let id = products.indexOf(requestData.productId);
+        products.splice(id, 1);
+
+        localStorage.setItem("products", JSON.stringify(products));
         localStorage.setItem("time", Number(Date.now()) + 1000 * 60 * 5);
 
         return response;
       })
       .catch((error) => {
         if (error.response.status === 400 || error.response.status === 404) {
-          localStorage.clear("guid");
-          localStorage.clear("time");
-          localStorage.clear("selfCheckoutId");
+          localStorage.removeItem("guid");
+          localStorage.removeItem("time");
+          localStorage.removeItem("selfCheckoutId");
           window.location.href = "/";
         }
       });
@@ -54,6 +68,7 @@ export const removeProduct = createAsyncThunk(
 export const updateCart = createAsyncThunk("updateCart", async (number) => {
   const { data } = await axios.get(`/api/Cart/${number}`).catch((error) => {
     if (error.response.status === 400 || error.response.status === 404) {
+      localStorage.clear("products");
       localStorage.clear("guid");
       localStorage.clear("time");
       localStorage.clear("selfCheckoutId");

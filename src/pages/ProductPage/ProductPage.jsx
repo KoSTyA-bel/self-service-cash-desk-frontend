@@ -28,7 +28,7 @@ const ProductPage = () => {
   const cartItems = useSelector((state) => state.cart.cart.items.products);
   const pageNumber = useSelector((state) => state.products.page);
   const selfCheckout = JSON.parse(localStorage.getItem("selfCheckoutId"));
-
+  const products = JSON.parse(localStorage.getItem("products"));
   const cartNumber = JSON.parse(localStorage.getItem("guid"));
 
   const onClickAddProduct = async (id) => {
@@ -40,13 +40,28 @@ const ProductPage = () => {
       })
     );
     await dispatch(updateCart(cartNumber));
-    dispatch(updateTimer());
+    await dispatch(updateTimer());
   };
 
   const onClickSearch = async () => {
     await dispatch(toFirstPage());
     await dispatch(getProducts({ pageNumber, title, barcode }));
     await dispatch(getProductsOnNextPage({ pageNumber, title, barcode }));
+  };
+
+  const onClickResore = async () => {
+    localStorage.removeItem("products");
+    for (const product of products) {
+      await dispatch(
+        addProduct({
+          cartNumber: cartNumber,
+          productId: product,
+          selfChecoutId: selfCheckout,
+        })
+      );
+    }
+
+    await dispatch(updateCart(cartNumber));
   };
 
   React.useEffect(() => {
@@ -104,6 +119,12 @@ const ProductPage = () => {
         />
         <Timer />
       </div>
+      {products === null ? null : products.length === 0 ? null : cartItems ===
+        undefined ? null : cartItems.length !== 0 ? null : (
+        <button className={styles.buttonRestore} onClick={onClickResore}>
+          Restore
+        </button>
+      )}
       {items.length === 0 ? (
         <h1>No products</h1>
       ) : (

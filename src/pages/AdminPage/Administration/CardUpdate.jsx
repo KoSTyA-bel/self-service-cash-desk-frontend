@@ -16,7 +16,6 @@ const CardUpdate = () => {
   });
 
   const onChangeDiscount = (e) => {
-    console.log(e.target.value);
     setData({ ...data, discount: e.target.value });
   };
 
